@@ -15,7 +15,8 @@ func QrCommand(config model.Config) cli.Command {
 	tickets := FetchTickets(config)
 
 	return cli.Command{
-		Name: "qrcode",
+		Name:  "qrcode",
+		Usage: "generates qr code for given ticket",
 		Action: func(c *cli.Context) error {
 			ticket := helpers.ReadTicketId(c, tickets)
 			qrString := fmt.Sprintf("otpauth://totp/%s/:%s?secret=%s&issuer=%s", ticket.Site, config.Username, ticket.Secret, ticket.Site)

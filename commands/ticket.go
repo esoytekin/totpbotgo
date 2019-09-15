@@ -16,7 +16,8 @@ import (
 func TicketCommand(config model.Config) cli.Command { // {{{
 	tickets := FetchTickets(config)
 	return cli.Command{
-		Name: "ticket",
+		Name:  "ticket",
+		Usage: "generates token for given ticket",
 		Action: func(c *cli.Context) error {
 			ticket := helpers.ReadTicketId(c, tickets)
 			token := fetchToken(config, ticket.Site)
