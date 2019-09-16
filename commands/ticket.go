@@ -6,9 +6,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"scratch/totpbotgo/helpers"
-	"scratch/totpbotgo/model"
 	"time"
+
+	"github.com/esoytekin/totpbotgo/helpers"
+	"github.com/esoytekin/totpbotgo/model"
 
 	"github.com/urfave/cli"
 )

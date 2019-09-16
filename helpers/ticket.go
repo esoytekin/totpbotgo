@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"scratch/totpbotgo/model"
+	"github.com/esoytekin/totpbotgo/model"
 
 	"github.com/manifoldco/promptui"
 	"github.com/urfave/cli"

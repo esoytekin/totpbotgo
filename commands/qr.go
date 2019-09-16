@@ -3,8 +3,9 @@ package commands
 
 import (
 	"fmt"
-	"scratch/totpbotgo/helpers"
-	"scratch/totpbotgo/model"
+
+	"github.com/esoytekin/totpbotgo/helpers"
+	"github.com/esoytekin/totpbotgo/model"
 
 	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/urfave/cli"

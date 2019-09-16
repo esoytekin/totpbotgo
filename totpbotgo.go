@@ -8,9 +8,10 @@ import (
 	"os"
 	"os/user"
 	"path"
-	"scratch/totpbotgo/commands"
-	"scratch/totpbotgo/model"
 	"time"
+
+	"github.com/esoytekin/totpbotgo/commands"
+	"github.com/esoytekin/totpbotgo/model"
 
 	"github.com/urfave/cli"
 )
