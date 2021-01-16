@@ -11,15 +11,16 @@ import (
 	"github.com/urfave/cli"
 )
 
+// QrCommand prints qr code for givin site
 func QrCommand(config model.Config) cli.Command {
 
-	tickets := FetchTickets(config)
+	tickets := FetchTickets()
 
 	return cli.Command{
 		Name:  "qrcode",
 		Usage: "generates qr code for given ticket",
 		Action: func(c *cli.Context) error {
-			ticket := helpers.ReadTicketId(c, tickets)
+			ticket := helpers.ReadTicketID(c, tickets)
 			qrString := fmt.Sprintf("otpauth://totp/%s/:%s?secret=%s&issuer=%s", ticket.Site, config.Username, ticket.Secret, ticket.Site)
 			obj := qrcodeTerminal.New()
 			obj.Get(qrString).Print()

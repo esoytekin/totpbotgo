@@ -1,7 +1,8 @@
 package model
 
+// Config application configuration
 type Config struct {
-	Url      string `json:"url"`
+	URL      string `json:"url"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }

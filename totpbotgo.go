@@ -51,7 +51,7 @@ func createApp() *cli.App {
 	app.Usage = "generate otp token or qr code"
 	app.Compiled = time.Now()
 	app.Authors = []cli.Author{
-		cli.Author{
+		{
 			Name:  "Emrah Soytekin",
 			Email: "emrahsoytekin@gmail.com",
 		},
@@ -72,6 +72,8 @@ func main() {
 	app.Commands = []cli.Command{
 		commands.TicketCommand(config),
 		commands.QrCommand(config),
+		commands.NewTicketCommand(),
+		commands.DeleteTicketCommand(),
 	}
 
 	app.Action = func(c *cli.Context) error {

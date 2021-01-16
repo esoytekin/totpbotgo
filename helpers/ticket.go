@@ -2,14 +2,13 @@ package helpers
 
 import (
 	"github.com/esoytekin/totpbotgo/model"
-
 	"github.com/manifoldco/promptui"
 	"github.com/urfave/cli"
 )
 
-func getTicketById(tickets []model.Ticket, ticketId string) *model.Ticket {
+func getTicketByID(tickets []model.Ticket, ticketID string) *model.Ticket {
 	for _, t := range tickets {
-		if t.Site == ticketId {
+		if t.Site == ticketID {
 			return &t
 		}
 	}
@@ -17,27 +16,30 @@ func getTicketById(tickets []model.Ticket, ticketId string) *model.Ticket {
 	return nil
 }
 
-func ReadTicketId(c *cli.Context, tickets []model.Ticket) *model.Ticket {
-	var ticketId string
+// ReadTicketID returns ticket data for give ID
+func ReadTicketID(c *cli.Context, tickets []model.Ticket) *model.Ticket {
+
+	var ticketID string
+
 	if c.NArg() > 0 {
-		ticketId = c.Args().First()
-		return getTicketById(tickets, ticketId)
-	} else {
-		var ticketData []string
-
-		for _, t := range tickets {
-			ticketData = append(ticketData, t.Site)
-		}
-
-		prompt := promptui.Select{Label: "select ticket", Items: ticketData}
-
-		index, _, err := prompt.Run()
-
-		if err != nil {
-			return nil
-		} else {
-			return &tickets[index]
-		}
+		ticketID = c.Args().First()
+		return getTicketByID(tickets, ticketID)
 	}
+
+	var ticketData []string
+
+	for _, t := range tickets {
+		ticketData = append(ticketData, t.Site)
+	}
+
+	prompt := promptui.Select{Label: "select ticket", Items: ticketData}
+
+	index, _, err := prompt.Run()
+
+	if err != nil {
+		return nil
+	}
+
+	return &tickets[index]
 
 }

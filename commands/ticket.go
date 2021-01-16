@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,18 +8,23 @@ import (
 	"time"
 
 	"github.com/esoytekin/totpbotgo/helpers"
+	"github.com/esoytekin/totpbotgo/helpers/ajax"
 	"github.com/esoytekin/totpbotgo/model"
 
 	"github.com/urfave/cli"
 )
 
-func TicketCommand(config model.Config) cli.Command { // {{{
-	tickets := FetchTickets(config)
+// TicketCommand command for printing the token for given site
+func TicketCommand(config model.Config) cli.Command {
+	tickets := FetchTickets()
 	return cli.Command{
 		Name:  "ticket",
 		Usage: "generates token for given ticket",
 		Action: func(c *cli.Context) error {
-			ticket := helpers.ReadTicketId(c, tickets)
+			ticket := helpers.ReadTicketID(c, tickets)
+			if ticket == nil {
+				return nil
+			}
 			token := fetchToken(config, ticket.Site)
 			fmt.Println(token)
 			return nil
@@ -35,40 +39,21 @@ func TicketCommand(config model.Config) cli.Command { // {{{
 		},
 	}
 
-} // }}}
+}
 
 var client = http.Client{Timeout: 10 * time.Second}
 
-func FetchTickets(config model.Config) []model.Ticket {
+// FetchTickets returns all available ticket list
+func FetchTickets() []model.Ticket {
 
-	req, err := http.NewRequest("GET", config.Url, nil)
-
-	req.SetBasicAuth(config.Username, config.Password)
-
-	resp, err := client.Do(req)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer resp.Body.Close()
-
-	var result []model.Ticket
-
-	err = json.NewDecoder(resp.Body).Decode(&result)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return result
+	return ajax.Fetch()
 }
 
-func fetchToken(config model.Config, ticketId string) string {
+func fetchToken(config model.Config, ticketID string) string {
 
-	tokenUrl := fmt.Sprintf("%s/%s", config.Url, ticketId)
+	tokenURL := fmt.Sprintf("%s/%s", config.URL, ticketID)
 
-	req, err := http.NewRequest("GET", tokenUrl, nil)
+	req, err := http.NewRequest("GET", tokenURL, nil)
 
 	req.SetBasicAuth(config.Username, config.Password)
 
